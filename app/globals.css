@@ -1,0 +1,171 @@
+@import "tailwindcss";
+
+/*
+  Phillips Clinic design tokens.
+  Palette: deep evergreen ground + paper neutral + a single brick accent.
+  Deliberately not medical-blue and not the beige/brass default. One accent,
+  used on every CTA and every emphasis on every page.
+  Radius scale is fixed: pill for interactive, 14px for surfaces, 0 for hairlines.
+*/
+@theme {
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+
+  /*
+    The clinic's own identity, sampled from their logo and print collateral,
+    not invented. Logo mark: orange #ff9800 tile with gold #ffdd55 and a blue
+    swoosh. Print headers: navy #384772. Web banners: #4a86c4 to #548bc4,
+    highlight #52a8ec, fades #a7bee0 / #dfe3ed. Body copy #505050.
+    Navy is the ground, orange is the single accent.
+  */
+  --color-brand-50: #f4f6fa;
+  --color-brand-100: #dfe3ed;
+  --color-brand-200: #a7bee0;
+  --color-brand-300: #93aad0;
+  --color-brand-400: #548bc4;
+  --color-brand-500: #4a86c4;
+  --color-brand-600: #4a5a8a;
+  --color-brand-700: #384772;
+  --color-brand-800: #2b3758;
+  --color-brand-900: #1f2942;
+  --color-brand-950: #141b2d;
+
+  /*
+    Their orange verbatim at 400. It is only 2.1:1 on white, so anything
+    carrying text steps down to 600/700, which clear WCAG AA.
+  */
+  --color-accent-300: #ffdd55;
+  --color-accent-400: #ff9800;
+  --color-accent-500: #ef8200;
+  --color-accent-600: #c4650a;
+  --color-accent-700: #9c4f06;
+
+  --radius-surface: 14px;
+}
+
+:root {
+  color-scheme: light;
+
+  --surface: #ffffff;
+  --surface-2: var(--color-brand-50);
+  --surface-inset: #ffffff;
+  --text-strong: var(--color-brand-900);
+  --text-body: #505050;
+  --text-muted: #6d7688;
+  --hairline: #dfe3ed;
+  --accent: var(--color-accent-600);
+  --accent-hover: var(--color-accent-700);
+  --accent-on: #ffffff;
+  /* The bright logo orange, for icons and anything on the navy bands. */
+  --accent-bright: var(--color-accent-400);
+}
+
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    background: var(--surface);
+    color: var(--text-body);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    color: var(--text-strong);
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-on);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+
+  /* One button system. Primary is the only filled control on any page. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1;
+    padding: 0.875rem 1.5rem;
+    transition:
+      background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+      color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.12s ease;
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--accent-on);
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-hover);
+  }
+
+  .btn-ghost {
+    border: 1px solid var(--hairline);
+    color: var(--text-strong);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--text-strong);
+  }
+
+
+  .shell {
+    width: 100%;
+    max-width: 78rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .shell {
+      padding-inline: 2rem;
+    }
+  }
+
+  .prose-body {
+    color: var(--text-body);
+    line-height: 1.7;
+    max-width: 65ch;
+  }
+}
