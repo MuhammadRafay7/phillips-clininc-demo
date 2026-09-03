@@ -5,6 +5,9 @@ import { CaretLeft, CaretRight, Quotes } from "@phosphor-icons/react";
 
 type Review = { name: string; body: string };
 
+/** How long each review holds before the carousel advances. */
+const ADVANCE_MS = 5000;
+
 /**
  * The patient reviews, as a scroll-snap carousel. Replaces the standalone
  * /reviews page, so it carries every review rather than a slice of them.
@@ -12,22 +15,40 @@ type Review = { name: string; body: string };
  * Native scroll does the work: the buttons and dots just drive scrollTo, so
  * touch swipe, trackpad and keyboard all behave without a gesture library,
  * and it degrades to a plain horizontal scroller if JS never runs.
+ *
+ * It advances on its own every ADVANCE_MS and wraps at the end, but yields to
+ * the reader. Every reason to stop is temporary and self-clearing: pointer
+ * over it, focus inside it, a recent manual move, the tab hidden, or the
+ * carousel scrolled off screen. prefers-reduced-motion disables it outright.
  */
 export function ReviewsCarousel({ reviews }: { reviews: readonly Review[] }) {
   const trackRef = useRef<HTMLUListElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+
   const [active, setActive] = useState(0);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
 
+  const [reduceMotion, setReduceMotion] = useState(false);
+  // Kept apart so clearing one reason cannot cancel another.
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const [offscreen, setOffscreen] = useState(false);
+  const [tabHidden, setTabHidden] = useState(false);
+
+  /** Card pitch measured from the DOM, so it can't drift from the classes. */
+  const pitchOf = (el: HTMLElement) => {
+    const first = el.firstElementChild as HTMLElement | null;
+    if (!first) return 0;
+    const second = first.nextElementSibling as HTMLElement | null;
+    return second ? second.offsetLeft - first.offsetLeft : first.offsetWidth;
+  };
+
   const sync = useCallback(() => {
     const el = trackRef.current;
     if (!el) return;
-    const first = el.firstElementChild as HTMLElement | null;
-    if (!first) return;
-    // Card pitch includes the flex gap, so measure from the DOM rather than
-    // hard-coding a width that would drift from the Tailwind classes.
-    const second = first.nextElementSibling as HTMLElement | null;
-    const pitch = second ? second.offsetLeft - first.offsetLeft : first.offsetWidth;
+    const pitch = pitchOf(el);
+    if (!pitch) return;
     setActive(Math.round(el.scrollLeft / pitch));
     setAtStart(el.scrollLeft <= 4);
     setAtEnd(el.scrollLeft >= el.scrollWidth - el.clientWidth - 4);
@@ -57,15 +78,88 @@ export function ReviewsCarousel({ reviews }: { reviews: readonly Review[] }) {
     [active, reviews.length, scrollToCard],
   );
 
+  /**
+   * A manual move holds the timer for one extra beat, so the carousel does
+   * not advance out from under someone who just tapped an arrow. Hover and
+   * focus already cover mouse and keyboard; this is mainly for touch, where
+   * there is no hover to pause on.
+   */
+  const [nudged, setNudged] = useState(false);
+  useEffect(() => {
+    if (!nudged) return;
+    const id = window.setTimeout(() => setNudged(false), ADVANCE_MS * 2);
+    return () => window.clearTimeout(id);
+  }, [nudged]);
+
+  const take = useCallback((run: () => void) => {
+    setNudged(true);
+    run();
+  }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const apply = () => setReduceMotion(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
+  useEffect(() => {
+    const onVisibility = () => setTabHidden(document.hidden);
+    onVisibility();
+    document.addEventListener("visibilitychange", onVisibility);
+
+    const root = rootRef.current;
+    const io = root
+      ? new IntersectionObserver(([e]) => setOffscreen(!e.isIntersecting), { threshold: 0.2 })
+      : null;
+    if (root && io) io.observe(root);
+
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      io?.disconnect();
+    };
+  }, []);
+
+  const held = hovered || focused || offscreen || tabHidden || nudged;
+  const autoAdvancing = !held && !reduceMotion && reviews.length > 1;
+
+  useEffect(() => {
+    if (!autoAdvancing) return;
+    const id = window.setInterval(() => {
+      const el = trackRef.current;
+      if (!el) return;
+      // Index is read off the DOM each tick, so it is never a stale closure.
+      const pitch = pitchOf(el);
+      if (!pitch) return;
+      const last = el.scrollLeft >= el.scrollWidth - el.clientWidth - 4;
+      scrollToCard(last ? 0 : Math.round(el.scrollLeft / pitch) + 1);
+    }, ADVANCE_MS);
+    return () => window.clearInterval(id);
+  }, [autoAdvancing, scrollToCard]);
+
   return (
-    <div className="mt-12">
+    <div
+      ref={rootRef}
+      className="mt-12"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocusCapture={() => setFocused(true)}
+      onBlurCapture={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocused(false);
+      }}
+    >
       <ul
         ref={trackRef}
         tabIndex={0}
         aria-label="Patient reviews"
+        aria-live={autoAdvancing ? "off" : "polite"}
+        // A drag on the track counts as a manual move; the arrows and dots
+        // below flag it themselves via take().
+        onPointerDown={() => setNudged(true)}
         onKeyDown={(e) => {
-          if (e.key === "ArrowRight") { e.preventDefault(); step(1); }
-          if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); }
+          if (e.key === "ArrowRight") { e.preventDefault(); take(() => step(1)); }
+          if (e.key === "ArrowLeft") { e.preventDefault(); take(() => step(-1)); }
         }}
         className="flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)] [&::-webkit-scrollbar]:hidden"
       >
@@ -99,7 +193,7 @@ export function ReviewsCarousel({ reviews }: { reviews: readonly Review[] }) {
               role="tab"
               aria-selected={i === active}
               aria-label={`Review ${i + 1} of ${reviews.length}`}
-              onClick={() => scrollToCard(i)}
+              onClick={() => take(() => scrollToCard(i))}
               className={`h-2 rounded-full transition-all ${
                 i === active
                   ? "w-6 bg-[var(--accent)]"
@@ -115,7 +209,7 @@ export function ReviewsCarousel({ reviews }: { reviews: readonly Review[] }) {
               <button
                 key={label}
                 type="button"
-                onClick={() => step(dir)}
+                onClick={() => take(() => step(dir))}
                 disabled={disabled}
                 aria-label={`${label} review`}
                 className="grid h-10 w-10 place-items-center rounded-full border border-[var(--hairline)] bg-white text-[var(--text-strong)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)] disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-[var(--hairline)] disabled:hover:text-[var(--text-strong)]"
