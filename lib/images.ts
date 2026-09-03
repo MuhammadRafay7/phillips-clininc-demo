@@ -1,8 +1,9 @@
 /**
  * PHOTOGRAPHY.
  *
- * Only the clinic's own images are used. Where they have no photo for a slot,
- * we render a branded panel rather than an unrelated stock picture.
+ * The clinic's own images are preferred. Where they have none and no panel
+ * reads well, a licensed stock photo may be used and must record its source
+ * and licence in `credit` below.
  *
  * Note on what was deliberately left out: their weight-loss page image is a
  * watermarked Adobe Stock comp, so it is not licensed and cannot ship.
@@ -13,6 +14,8 @@ export type Slot = {
   alt: string;
   /** The photo to shoot to replace the branded panel or upgrade a low-res file. */
   need: string;
+  /** Source and licence, required whenever `src` is not the clinic's own photo. */
+  credit?: string;
   width: number;
   height: number;
 };
@@ -33,11 +36,13 @@ export const photos = {
     height: 900,
   },
   wellness: {
-    src: "/nutrition.jpg",
-    alt: "Fresh produce in a shopping bag",
-    need: "Their own image, 127x535 and very narrow. Reshoot wider, or a 50-plus patient in consultation.",
-    width: 127,
-    height: 535,
+    src: "/wellness-longevity.jpg",
+    alt: "An older couple walking together on a footbridge",
+    need: "Stock stand-in. Replace with the clinic's own: a 50-plus patient in consultation, or their providers with an older patient. Their previous image (/nutrition.jpg, produce in a shopping bag) is kept in /public but unused \u2014 it is 127x535 and no larger original exists anywhere on their old site.",
+    width: 1600,
+    height: 1200,
+    credit:
+      "Photo by Richard Sagredo on Unsplash (unsplash.com/photos/IzIERuIwJWo). Unsplash Licence: free for commercial use, no attribution required.",
   },
   records: {
     src: "/records.jpg",
