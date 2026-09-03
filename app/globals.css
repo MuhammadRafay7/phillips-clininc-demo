@@ -58,6 +58,12 @@
   --accent-on: #ffffff;
   /* The bright logo orange, for icons and anything on the navy bands. */
   --accent-bright: var(--color-accent-400);
+  /*
+    Review stars. A muted gold rather than the accent, so a decorative rating
+    is not the same colour as the site's links and buttons, and quiet enough
+    that five in a row do not shout over the quote they sit above.
+  */
+  --star: #d9a13a;
 }
 
 
