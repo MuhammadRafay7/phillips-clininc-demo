@@ -157,6 +157,18 @@ export default function HomePage() {
               <span className="text-[var(--accent)]">anti-aging medicine.</span>
             </h1>
 
+            {/* Their hand-lettered promise, straight off their own homepage:
+                "Our goal for our patients is to Be Well, Stay Well & Age Well." */}
+            <Image
+              src="/tagline-be-well.png"
+              alt={clinic.tagline}
+              width={788}
+              height={105}
+              sizes="360px"
+              priority
+              className="mt-6 h-auto w-[19rem] max-w-full sm:w-[22rem]"
+            />
+
             <p className="mt-5 text-base sm:text-lg leading-relaxed text-[var(--text-body)] max-w-[56ch]">
               Personalized care for children, adults and seniors in one Las Vegas
               building &mdash; with x-ray, ultrasound and DEXA on site, so most

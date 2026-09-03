@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { FacebookLogo } from "@phosphor-icons/react/dist/ssr";
 import { clinic } from "@/lib/clinic";
 import { Wordmark } from "./wordmark";
@@ -39,6 +40,16 @@ export function SiteFooter() {
       <div className="shell grid gap-12 py-16 md:grid-cols-12">
         <div className="md:col-span-4">
           <Wordmark />
+          {/* The clinic's own hand-lettered slogan, lifted from their site.
+              Its ink is already brand-300, so it sits in the palette as-is. */}
+          <Image
+            src="/tagline-be-well.png"
+            alt={clinic.tagline}
+            width={788}
+            height={105}
+            sizes="240px"
+            className="mt-5 h-auto w-[15rem] max-w-full"
+          />
           <p className="mt-5 max-w-[34ch] text-sm leading-relaxed text-[var(--text-muted)]">
             {clinic.descriptor}. Serving Las Vegas families since 2005.
           </p>
