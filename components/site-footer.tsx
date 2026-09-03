@@ -4,6 +4,8 @@ import { FacebookLogo } from "@phosphor-icons/react/dist/ssr";
 import { clinic } from "@/lib/clinic";
 import { Wordmark } from "./wordmark";
 
+type FooterLink = { href: string; label: string; external?: boolean };
+
 const columns = [
   {
     heading: "Care",
@@ -21,7 +23,7 @@ const columns = [
       { href: "/supplements", label: "Supplements" },
       { href: "/forms#covid-guide", label: "COVID guide book" },
       { href: "/kits", label: "Medication kits" },
-      { href: "/reviews", label: "Patient reviews" },
+      { href: "/#reviews", label: "Patient reviews" },
     ],
   },
   {
@@ -30,9 +32,14 @@ const columns = [
       { href: "/team", label: "Our team" },
       { href: "/blog", label: "Health newsletter" },
       { href: "/contact", label: "Contact & directions" },
+      {
+        href: clinic.employeePortalHref,
+        label: "Employee portal",
+        external: true,
+      },
     ],
   },
-];
+] satisfies { heading: string; links: FooterLink[] }[];
 
 export function SiteFooter() {
   return (
@@ -98,12 +105,23 @@ export function SiteFooter() {
             <ul className="mt-4 space-y-3">
               {col.links.map((l) => (
                 <li key={l.href + l.label}>
-                  <Link
-                    href={l.href}
-                    className="text-sm text-[var(--text-muted)] transition-colors hover:text-[var(--accent)]"
-                  >
-                    {l.label}
-                  </Link>
+                  {"external" in l && l.external ? (
+                    <a
+                      href={l.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-[var(--text-muted)] transition-colors hover:text-[var(--accent)]"
+                    >
+                      {l.label}
+                    </a>
+                  ) : (
+                    <Link
+                      href={l.href}
+                      className="text-sm text-[var(--text-muted)] transition-colors hover:text-[var(--accent)]"
+                    >
+                      {l.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

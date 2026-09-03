@@ -15,6 +15,7 @@ const nav = [
   { href: "/supplements", label: "Supplements", badge: null },
   { href: "/kits", label: "Kits", badge: "Rx" },
   { href: "/blog", label: "Newsletter", badge: null },
+  { href: "/contact", label: "Contact", badge: null },
 ];
 
 export function SiteHeader() {
@@ -101,14 +102,6 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <a
-              href={clinic.patientPortalHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden xl:inline-flex whitespace-nowrap rounded-full border border-transparent px-2 py-1.5 text-xs font-semibold text-[var(--text-muted)] transition-colors hover:border-[var(--hairline)] hover:text-[var(--text-strong)]"
-            >
-              Portal
-            </a>
             <a
               href={clinic.bookingHref}
               target="_blank"

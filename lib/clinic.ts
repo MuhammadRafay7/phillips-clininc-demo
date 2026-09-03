@@ -27,7 +27,12 @@ export const clinic = {
     "https://www.zocdoc.com/practice/phillips-clinic-family-practice-22848?lock=true&isNewPatient=false&referrerType=Widget",
   /** The clinic's own supplement storefront. */
   supplementsHref: "https://phillips-clinic.pharmabuilt.com/",
-  patientPortalHref: "https://avfee.prismhr.com/avf/cmd/login",
+  /**
+   * Staff payroll login, not a patient portal \u2014 the button image on the old
+   * site reads "EMPLOYEE LOGIN". Their actual patient portal is AdvancedMD
+   * (patientportal.advancedmd.com/121316/account/logon), still to be wired up.
+   */
+  employeePortalHref: "https://avfee.prismhr.com/avf/cmd/login",
   facebookHref: "https://www.facebook.com/phillipsclinic",
 } as const;
 

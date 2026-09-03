@@ -12,18 +12,21 @@ const legacyRedirects = [
   ["/AntiAging.html", "/anti-aging"],
   ["/MedicalForms.html", "/forms"],
   ["/WeightLossTrials.html", "/weight-loss-trials"],
-  ["/Reviews.html", "/reviews"],
+  ["/Reviews.html", "/#reviews"],
   ["/ContactUs.html", "/contact"],
   ["/COVIDandAntibioticKits.html", "/kits"],
   ["/blog.html", "/"],
 ];
+
+/** The reviews page is now a carousel on the homepage; keep the URL alive. */
+const retiredPages = [["/reviews", "/#reviews"]];
 
 const nextConfig: NextConfig = {
   images: {
     
   },
   async redirects() {
-    return legacyRedirects.map(([source, destination]) => ({
+    return [...legacyRedirects, ...retiredPages].map(([source, destination]) => ({
       source,
       destination,
       permanent: true,

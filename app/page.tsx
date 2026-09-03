@@ -15,6 +15,7 @@ import {
   Stethoscope,
 } from "@phosphor-icons/react/dist/ssr";
 import { Reveal } from "@/components/reveal";
+import { ReviewsCarousel } from "@/components/reviews-carousel";
 import { clinic, founder, medicationKits, providers, reviews } from "@/lib/clinic";
 
 export const metadata = {
@@ -218,7 +219,7 @@ export default function HomePage() {
               </blockquote>
               <figcaption className="mt-2 text-xs text-[var(--text-muted)]">
                 Stephanie V., patient &middot;{" "}
-                <Link href="/reviews" className="font-medium text-[var(--accent)] hover:underline">
+                <Link href="/#reviews" className="font-medium text-[var(--accent)] hover:underline">
                   Read more reviews
                 </Link>
               </figcaption>
@@ -362,16 +363,27 @@ export default function HomePage() {
       <section className="border-b border-[var(--hairline)] bg-[var(--surface-2)] py-20 md:py-28">
         <div className="shell">
           <Reveal>
-            <div className="max-w-[24ch]">
-              <span className="font-display text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
-                Licensed Clinical Staff
-              </span>
-              <h2 className="mt-2 font-display text-3xl font-semibold leading-tight text-[var(--text-strong)] md:text-4xl">
-                Real doctors you see in person, year after year.
-              </h2>
-              <p className="mt-4 text-sm text-[var(--text-muted)]">
-                Our board-certified physicians and family nurse practitioners take extra time in the room, and they are the same providers who read your imaging.
-              </p>
+            {/* Header row matches the Care and Kits sections: copy left,
+                section link right, rather than a narrow column of text with
+                two thirds of the row left empty. */}
+            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+              <div>
+                <span className="font-display text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
+                  Licensed Clinical Staff
+                </span>
+                <h2 className="mt-2 max-w-[24ch] font-display text-3xl font-semibold leading-tight text-[var(--text-strong)] md:text-4xl">
+                  Real doctors you see in person, year after year.
+                </h2>
+                <p className="mt-4 max-w-[56ch] text-sm text-[var(--text-body)]">
+                  Our board-certified physicians and family nurse practitioners
+                  take extra time in the room, and they are the same providers
+                  who read your imaging.
+                </p>
+              </div>
+              <Link href="/team" className="btn btn-ghost shrink-0">
+                Meet the Team
+                <ArrowRight size={16} weight="bold" />
+              </Link>
             </div>
           </Reveal>
 
@@ -628,7 +640,10 @@ export default function HomePage() {
       </section>
 
       {/* 8. PATIENT REVIEWS */}
-      <section className="border-b border-[var(--hairline)] bg-white py-20 md:py-28">
+      <section
+        id="reviews"
+        className="scroll-mt-24 border-b border-[var(--hairline)] bg-white py-20 md:py-28"
+      >
         <div className="shell">
           <Reveal>
             <div className="text-center max-w-[60ch] mx-auto">
@@ -641,53 +656,51 @@ export default function HomePage() {
             </div>
           </Reveal>
 
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {reviews.slice(0, 6).map((r, i) => (
-              <Reveal key={r.name} delay={i * 0.05}>
-                <div className="flex h-full flex-col justify-between rounded-2xl border border-[var(--hairline)] bg-slate-50/60 p-6">
-                  <div>
-                    <blockquote className="text-sm leading-relaxed text-[var(--text-strong)]">
-                      “{r.body}”
-                    </blockquote>
-                  </div>
-                  <p className="mt-5 text-xs font-semibold text-[var(--text-muted)]">
-                    — {r.name}, patient
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <ReviewsCarousel reviews={reviews} />
         </div>
       </section>
 
       {/* 9. FREQUENTLY ASKED QUESTIONS */}
       <section className="border-b border-[var(--hairline)] bg-[var(--surface-2)] py-20 md:py-28">
-        <div className="shell max-w-4xl">
+        {/* Heading sits beside the accordion rather than above a narrow
+            centred column, which left most of the row empty. */}
+        <div className="shell grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <Reveal>
-            <div className="text-center">
+            <div className="lg:sticky lg:top-28">
               <span className="font-display text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
                 Got Questions?
               </span>
-              <h2 className="mt-2 font-display text-3xl font-semibold leading-tight text-[var(--text-strong)] md:text-4xl">
+              <h2 className="mt-2 max-w-[16ch] font-display text-3xl font-semibold leading-tight text-[var(--text-strong)] md:text-4xl">
                 Frequently Asked Questions
               </h2>
-              <p className="mt-3 text-sm text-[var(--text-muted)]">
-                Visiting the clinic, what we do on site, and how the medication kits work.
+              <p className="mt-4 max-w-[42ch] text-sm leading-relaxed text-[var(--text-body)]">
+                Visiting the clinic, what we do on site, and how the medication
+                kits work. If your question is not here, the front desk would
+                rather you called than guessed.
               </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a href={clinic.phoneHref} className="btn btn-primary">
+                  <Phone size={16} weight="fill" />
+                  Call {clinic.phone}
+                </a>
+                <Link href="/contact" className="btn btn-ghost">
+                  Contact &amp; directions
+                </Link>
+              </div>
             </div>
           </Reveal>
 
-          <div className="mt-12 space-y-4">
+          <div className="space-y-4">
             {faqItems.map((item, i) => (
               <Reveal key={item.q} delay={i * 0.05}>
                 <details className="group rounded-2xl border border-[var(--hairline)] bg-white p-6 open:shadow-sm">
-                  <summary className="flex cursor-pointer list-none items-center justify-between font-display text-base font-semibold text-[var(--text-strong)]">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-base font-semibold text-[var(--text-strong)]">
                     <span>{item.q}</span>
-                    <span className="ml-4 transition-transform duration-200 group-open:rotate-180 text-[var(--accent)]">
+                    <span className="shrink-0 text-[var(--accent)] transition-transform duration-200 group-open:rotate-180">
                       ↓
                     </span>
                   </summary>
-                  <p className="mt-4 text-sm leading-relaxed text-[var(--text-body)] border-t border-[var(--hairline)] pt-4">
+                  <p className="mt-4 border-t border-[var(--hairline)] pt-4 text-sm leading-relaxed text-[var(--text-body)]">
                     {item.a}
                   </p>
                 </details>
