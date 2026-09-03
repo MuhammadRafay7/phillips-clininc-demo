@@ -28,6 +28,7 @@ export const clinic = {
   /** The clinic's own supplement storefront. */
   supplementsHref: "https://phillips-clinic.pharmabuilt.com/",
   patientPortalHref: "https://avfee.prismhr.com/avf/cmd/login",
+  facebookHref: "https://www.facebook.com/phillipsclinic",
 } as const;
 
 /** Day-of-week keys match `Date#getDay()` order so the "open now" logic stays trivial. */

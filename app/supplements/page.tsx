@@ -17,7 +17,23 @@ export default function SupplementsPage() {
       <PageHero
         title="Physician-grade supplements, matched to your biology."
         intro="Phillips Clinic offers proprietary, practitioner-formulated nutritional supplements through our own online store. Sourced without cheap fillers, artificial colorings, or unverified ingredients."
-      />
+      >
+        <div className="mt-8">
+          <a
+            href={clinic.supplementsHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-primary"
+          >
+            Open the supplement store
+            <ArrowUpRight size={17} weight="bold" />
+          </a>
+          <p className="mt-3 text-xs text-[var(--text-muted)]">
+            The store is set up under Phillips Clinic, so your provider&rsquo;s
+            recommendations carry across.
+          </p>
+        </div>
+      </PageHero>
 
       <section className="shell py-16 md:py-24">
         <div className="grid gap-12 lg:grid-cols-2 items-center">
@@ -55,21 +71,6 @@ export default function SupplementsPage() {
                 <CheckCircle size={18} weight="fill" className="text-emerald-600 shrink-0" />
                 <span>Zero synthetic binders or excipients</span>
               </div>
-            </div>
-
-            <div className="mt-8">
-              <a
-                href={clinic.supplementsHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-primary"
-              >
-                Open the supplement store
-                <ArrowUpRight size={17} weight="bold" />
-              </a>
-              <p className="mt-3 text-xs text-[var(--text-muted)]">
-                The store is set up under Phillips Clinic, so your provider’s recommendations carry across.
-              </p>
             </div>
           </Reveal>
         </div>

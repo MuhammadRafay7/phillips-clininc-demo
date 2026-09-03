@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FacebookLogo } from "@phosphor-icons/react/dist/ssr";
 import { clinic } from "@/lib/clinic";
 import { Wordmark } from "./wordmark";
 
@@ -62,6 +63,16 @@ export function SiteFooter() {
               {clinic.email}
             </a>
           </address>
+
+          <a
+            href={clinic.facebookHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-[var(--hairline)] px-3.5 py-2 text-sm font-medium text-[var(--text-body)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+          >
+            <FacebookLogo size={17} weight="fill" />
+            Follow us on Facebook
+          </a>
         </div>
 
         {columns.map((col) => (
