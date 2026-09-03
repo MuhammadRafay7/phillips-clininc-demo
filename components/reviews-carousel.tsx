@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { CaretLeft, CaretRight, Quotes } from "@phosphor-icons/react";
+import { CaretLeft, CaretRight, Star } from "@phosphor-icons/react";
 
 type Review = { name: string; body: string };
 
@@ -166,19 +166,26 @@ export function ReviewsCarousel({ reviews }: { reviews: readonly Review[] }) {
         {reviews.map((r) => (
           <li
             key={r.name}
-            className="flex w-[85%] shrink-0 snap-start flex-col rounded-2xl border border-[var(--hairline)] bg-white p-8 shadow-sm sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]"
+            // `relative` is load-bearing: the sr-only rating below is
+            // position:absolute, and without a positioned ancestor its
+            // containing block is the page, so it escapes this track's
+            // overflow clip and drags the document's scrollWidth out to the
+            // last card — a full-width horizontal scrollbar on every page.
+            className="relative flex w-[85%] shrink-0 snap-start flex-col rounded-2xl border border-[var(--hairline)] bg-white p-8 shadow-sm sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]"
           >
-            <Quotes
-              size={28}
-              weight="fill"
-              className="shrink-0 text-[var(--color-brand-200)]"
-              aria-hidden
-            />
+            {/* Small, and in --star rather than the accent, so the row reads
+                as a quiet marker and is not mistaken for something clickable. */}
+            <div className="flex gap-0.5 text-[var(--star)]" aria-hidden>
+              {Array.from({ length: 5 }, (_, i) => (
+                <Star key={i} size={14} weight="fill" />
+              ))}
+            </div>
             <blockquote className="mt-4 flex-1 text-[0.95rem] leading-relaxed text-[var(--text-strong)]">
               {r.body}
             </blockquote>
             <p className="mt-6 border-t border-[var(--hairline)] pt-4 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">
               {r.name}, patient
+              <span className="sr-only"> &mdash; rated 5 out of 5</span>
             </p>
           </li>
         ))}
