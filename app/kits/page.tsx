@@ -6,7 +6,7 @@ import { CtaBand } from "@/components/cta-band";
 import { clinic, kitsIntro, kitsPartner, medicationKits } from "@/lib/clinic";
 
 export const metadata = {
-  title: "Prescription Medication Kits | Partell Pharmacy Partner",
+  title: "Prescription Medication Kits",
   description:
     "Antibiotic and COVID emergency prescription medication kits from Phillips Clinic in Las Vegas, dispensed with a telehealth visit through Partell Pharmacy.",
 };
@@ -165,7 +165,7 @@ export default function KitsPage() {
         </section>
       ))}
 
-      {/* Pharmacy Partner Banner */}
+      {/* Compounding partner banner */}
       <section className="border-t border-[var(--hairline)] bg-[var(--color-brand-950)] text-white">
         <div className="shell grid gap-10 py-16 md:grid-cols-2 md:gap-20">
           <div>

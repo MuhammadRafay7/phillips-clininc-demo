@@ -25,7 +25,8 @@ export const clinic = {
     "https://www.google.com/maps/search/?api=1&query=5970+S+Rainbow+Blvd+Suite+100+Las+Vegas+NV+89118",
   bookingHref:
     "https://www.zocdoc.com/practice/phillips-clinic-family-practice-22848?lock=true&isNewPatient=false&referrerType=Widget",
-  supplementsHref: "https://www.wholescripts.com/register/PhilClinic-phillips",
+  /** The clinic's own supplement storefront. */
+  supplementsHref: "https://phillips-clinic.pharmabuilt.com/",
   patientPortalHref: "https://avfee.prismhr.com/avf/cmd/login",
 } as const;
 
@@ -304,7 +305,8 @@ export const patientForms = [
 /**
  * Prescription medication kits the clinic dispenses with a telehealth visit,
  * in partnership with Partell Pharmacy. Contents and prices transcribed from
- * the clinic's own patient flyer. This is the pharmacy side of the practice.
+ * the clinic's own patient flyer. A dispensing service alongside the practice,
+ * not the practice's main offering.
  */
 export const medicationKits = [
   {
@@ -313,7 +315,7 @@ export const medicationKits = [
     price: "$249",
     image: "/kits/antibiotic-kit.png",
     blurb:
-      "Broad-spectrum coverage to keep on hand for when an infection starts somewhere a pharmacy is not.",
+      "Broad-spectrum coverage to keep on hand for when an infection starts somewhere far from care.",
     contents: [
       "Amoxicillin-Clavulanate 875mg/125mg tablets",
       "Azithromycin 250mg tablets",
@@ -347,3 +349,88 @@ export const kitsIntro =
 
 export const kitsPartner =
   "We partner with Partell Pharmacy to provide preparatory products that are safe and effective. These can be kept on hand so you are prepared when unexpected emergencies and illnesses arise.";
+
+/**
+ * The Foundations tier of the clinic's own supplement store, transcribed from
+ * phillips-clinic.pharmabuilt.com on 2026-09-03.
+ *
+ * The store photographs every protocol against the same staged scene, so one
+ * shot stands in for the line rather than repeating it per card: see
+ * /public/protocol-packaging.jpg.
+ *
+ * Deliberately no prices: the store is the source of truth for those, and a
+ * number copied into this file goes stale silently. Every card links out.
+ *
+ * The store also sells Essentials+ and Ultimate tiers of the same ten
+ * protocols; only Foundations is listed here to keep the page readable.
+ */
+/**
+ * Deep link to a protocol's page in the store. Route is `shop/products/{slug}`
+ * (the store's own `guest.productDetails` route), verified against all ten
+ * slugs on 2026-09-03.
+ */
+export const supplementProductHref = (slug: string) =>
+  `${clinic.supplementsHref.replace(/\/$/, "")}/shop/products/${slug}`;
+
+export const supplementProtocols = [
+  {
+    slug: "foundations-antiaging-health-protocol",
+    name: "AntiAging",
+    blurb:
+      "Cellular support for energy and vitality, with antioxidants, CoQ10, omega-3s and NAD+ precursors for the pathways that decline with age.",
+  },
+  {
+    slug: "foundations-energy-health-protocol",
+    name: "Energy",
+    blurb:
+      "Smooth, sustained energy rather than a spike. Green tea extract, CoQ10 and omega-3s support mitochondrial function and focus.",
+  },
+  {
+    slug: "foundations-brain-health-protocol",
+    name: "Brain",
+    blurb:
+      "Focus, memory and mental clarity, built on researched adaptogens including rhodiola, ashwagandha and astragalus root.",
+  },
+  {
+    slug: "foundations-immunity-health-protocol",
+    name: "Immunity",
+    blurb:
+      "Everyday defenses from several angles: vitamins C, E and B6 with zinc, plus L-glutamine for the gut lining and elderberry and echinacea.",
+  },
+  {
+    slug: "foundations-gut-health-protocol",
+    name: "Gut Health",
+    blurb:
+      "A full-spectrum digestive system. Targeted enzymes break down proteins, fats and dairy sugars, with probiotics for the microbiome.",
+  },
+  {
+    slug: "foundations-blood-sugar-protocol",
+    name: "Blood Sugar",
+    blurb:
+      "For glucose swings and energy dips. Berberine, cinnamon extract and chromium support healthy glucose metabolism and metabolic resilience.",
+  },
+  {
+    slug: "foundations-womens-health-protocol",
+    name: "Women's Health",
+    blurb:
+      "Hormonal rhythm, monthly comfort and overall vitality, led by high-potency evening primrose oil for a healthy inflammatory balance.",
+  },
+  {
+    slug: "foundations-mens-health-protocol",
+    name: "Men's Health",
+    blurb:
+      "A daily stack for energy and balance, starting with a broad-spectrum enzyme complex for smoother digestion and less post-meal heaviness.",
+  },
+  {
+    slug: "foundations-mood-health-protocol",
+    name: "Mood",
+    blurb:
+      "Calm and clarity without feeling dulled. GABA, L-theanine and taurine support a smooth stress response and a balanced mood.",
+  },
+  {
+    slug: "foundations-glp-1-health-protocol",
+    name: "GLP-1 Support",
+    blurb:
+      "Complements the body's own appetite and energy regulation with berberine complex, chromium picolinate and cinnamon extract.",
+  },
+] as const;

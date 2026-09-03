@@ -2,8 +2,6 @@ import { MapPin, Phone, Printer, EnvelopeSimple } from "@phosphor-icons/react/di
 import { PageHero } from "@/components/page-hero";
 import { Reveal } from "@/components/reveal";
 import { HoursList } from "@/components/hours-list";
-import { Photo } from "@/components/photo";
-import { photos } from "@/lib/images";
 import { clinic } from "@/lib/clinic";
 
 export const metadata = {
@@ -115,11 +113,52 @@ export default function ContactPage() {
               className="h-[380px] w-full border-0 md:h-[460px]"
             />
           </div>
-          <Photo
-            slot={photos.building}
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            className="mt-4 aspect-[16/9] w-full rounded-[var(--radius-surface)] object-cover"
-          />
+          {/* Stands in for an exterior photo, which the clinic does not have
+              in any form (see photos.building in lib/images). It carries the
+              thing the photo was for: recognising the place on arrival. */}
+          <div className="mt-4 rounded-[var(--radius-surface)] border border-[var(--hairline)] bg-[var(--color-brand-50)] p-6 md:p-8">
+            <p className="font-display text-xs font-bold uppercase tracking-[0.18em] text-[var(--accent)]">
+              Finding the office
+            </p>
+            <dl className="mt-5 space-y-4">
+              {[
+                {
+                  label: "Cross streets",
+                  value: "South Rainbow between Russell Road and the 215.",
+                },
+                {
+                  label: "Which side",
+                  value: "East side of the street, in the Southwest Business Park.",
+                },
+                {
+                  label: "Look for",
+                  value: `Suite 100 at ${clinic.address.street.split(",")[0]}.`,
+                },
+              ].map(({ label, value }) => (
+                <div
+                  key={label}
+                  className="flex flex-col gap-1 border-b border-[var(--hairline)] pb-4 last:border-0 last:pb-0 sm:flex-row sm:gap-6"
+                >
+                  <dt className="shrink-0 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] sm:w-[7.5rem] sm:pt-0.5">
+                    {label}
+                  </dt>
+                  <dd className="text-sm leading-relaxed text-[var(--text-body)]">
+                    {value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+            <p className="mt-6 text-sm text-[var(--text-muted)]">
+              If you cannot find us from the street, call{" "}
+              <a
+                href={clinic.phoneHref}
+                className="font-medium text-[var(--accent)] hover:underline"
+              >
+                {clinic.phone}
+              </a>{" "}
+              and the front desk will talk you in.
+            </p>
+          </div>
         </Reveal>
       </section>
 

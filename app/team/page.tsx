@@ -6,7 +6,7 @@ import { providers, founder } from "@/lib/clinic";
 export const metadata = {
   title: "Healthcare Team",
   description:
-    "Meet the physicians and family nurse practitioners at Phillips Clinic Family Practice in Las Vegas: William Moffat DO, Julie Gidvani FNP-C, Kenneth Meier FNP-C and Hannah Garcia FNP-C.",
+    "Meet the team at Phillips Clinic Family Practice in Las Vegas: founder Mitchel E. Phillips DO, plus William Moffat DO, Julie Gidvani FNP-C, Kenneth Meier FNP-C and Hannah Garcia FNP-C.",
 };
 
 export default function TeamPage() {
@@ -14,8 +14,41 @@ export default function TeamPage() {
     <>
       <PageHero
         title="The people you will actually see."
-        intro="A physician and three family nurse practitioners, several with the practice for well over a decade. Continuity is the point: the person who saw you last time is the person who sees you next time."
+        intro="The practice Dr. Phillips founded, and the physician and three family nurse practitioners who run it today. Several have been here well over a decade. Continuity is the point: the person who saw you last time is the person who sees you next time."
       />
+
+      {/* The founder leads the page, but on a tinted band and in the past
+          tense: he built the practice, he is not someone you can book.
+          His photo is only 137x159, so it is rendered small rather than
+          stretched into the portrait column the providers below use. */}
+      <section className="border-b border-[var(--hairline)] bg-[var(--color-brand-50)]">
+        <div className="shell py-16 md:py-20">
+          <Reveal>
+            <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:gap-10">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={founder.photo}
+                alt={`${founder.name}, ${founder.credential}`}
+                width={137}
+                height={159}
+                className="w-[137px] shrink-0 rounded-[var(--radius-surface)] border border-[var(--hairline)] bg-white object-cover"
+              />
+              <div>
+                <span className="font-display text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
+                  {founder.role}
+                </span>
+                <h2 className="mt-1 font-display text-2xl font-semibold md:text-3xl">
+                  {founder.name}, {founder.credential}
+                </h2>
+                <p className="mt-5 max-w-[62ch] leading-relaxed text-[var(--text-body)]">
+                  {founder.bio}
+                </p>
+                <p className="mt-4 text-sm text-[var(--text-muted)]">{founder.years}</p>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
       <div className="shell divide-y divide-[var(--hairline)]">
         {providers.map((p, i) => (
@@ -74,23 +107,6 @@ export default function TeamPage() {
           </Reveal>
         ))}
       </div>
-
-      {/* Founder sits on the dark band: he is history, not a bookable provider,
-          and the tonal shift says so without a label. */}
-      <section className="bg-[var(--color-brand-50)]">
-        <div className="shell py-20 md:py-24">
-          <Reveal>
-            <h2 className="font-display text-2xl font-semibold md:text-3xl">
-              {founder.name}, {founder.credential}
-            </h2>
-            <p className="mt-1 text-[var(--accent)]">{founder.role}</p>
-            <p className="mt-6 max-w-[62ch] leading-relaxed text-[var(--text-body)]">
-              {founder.bio}
-            </p>
-            <p className="mt-4 text-sm text-[var(--text-muted)]">{founder.years}</p>
-          </Reveal>
-        </div>
-      </section>
 
       <CtaBand
         heading="Book with the provider you prefer."

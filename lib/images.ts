@@ -28,7 +28,7 @@ export const photos = {
   imaging: {
     src: null,
     alt: "On-site imaging at Phillips Clinic",
-    need: "MISSING. The in-house x-ray, ultrasound or DEXA equipment with a technician. This is the clinic's strongest differentiator and has no photo at all.",
+    need: "MISSING. The in-house x-ray, ultrasound or DEXA equipment with a technician. This is the clinic's strongest differentiator and has no photo at all. The services page runs a copy panel in this slot until the shoot happens.",
     width: 1200,
     height: 900,
   },
@@ -49,7 +49,7 @@ export const photos = {
   building: {
     src: null,
     alt: "The Phillips Clinic building on South Rainbow Boulevard",
-    need: "MISSING. Exterior of Suite 100 at 5970 S Rainbow Blvd, so a patient arriving by car recognises it.",
+    need: "MISSING. Exterior of Suite 100 at 5970 S Rainbow Blvd, so a patient arriving by car recognises it. Nothing usable exists on the old site or the store, so /contact runs a directions panel in this slot until the shoot happens.",
     width: 1400,
     height: 800,
   },

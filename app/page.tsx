@@ -1,55 +1,76 @@
 import Link from "next/link";
 import Image from "next/image";
 import {
-  ShieldCheck,
-  Truck,
-  FirstAidKit,
-  Pill,
-  Prescription,
+  ArrowRight,
+  ArrowUpRight,
+  CalendarCheck,
+  Check,
   CheckCircle,
   Clock,
-  LockKey,
-  Star,
-  Sparkle,
-  ArrowRight,
   Flask,
   Heartbeat,
-  Check,
   Phone,
   ShoppingBag,
-  ArrowUpRight,
+  Sparkle,
+  Star,
+  Stethoscope,
 } from "@phosphor-icons/react/dist/ssr";
 import { Reveal } from "@/components/reveal";
-import { clinic, medicationKits, providers, reviews } from "@/lib/clinic";
+import { clinic, founder, medicationKits, providers, reviews } from "@/lib/clinic";
 
 export const metadata = {
-  title: "Phillips Clinic & Pharmacy | Prescription Emergency Kits & Clinical Wellness",
   description:
-    "Physician-prescribed Antibiotic and COVID Emergency Kits, practitioner-grade supplements, and custom compounding delivered to your door in partnership with Partell Pharmacy.",
+    "Family practice, wellness and anti-aging medicine in Las Vegas since 2005. On-site x-ray, ultrasound, echocardiography and DEXA, board-certified providers, same-day appointments and open Saturdays.",
 };
 
-const pharmacyPillars = [
+/** What the clinic leads with: who they are, not what they ship. */
+const clinicPillars = [
   {
-    icon: Prescription,
-    title: "Licensed 503A Partner",
-    body: "Compounded and fulfilled in partnership with Partell Pharmacy, a premier licensed compounding facility in Las Vegas.",
+    icon: Stethoscope,
+    title: "Board-Certified Providers",
+    body: "Physicians and family nurse practitioners who see patients of every age, from newborns to seniors.",
   },
   {
-    icon: ShieldCheck,
-    title: "Physician-Supervised",
-    body: "Every order is reviewed and prescribed by board-certified physicians and family nurse practitioners.",
+    icon: Flask,
+    title: "Diagnostics On Site",
+    body: "X-ray, ultrasound, echocardiography and DEXA in the same building, read by your own provider.",
   },
   {
-    icon: Truck,
-    title: "Free 3–5 Day Delivery",
-    body: "Shipped directly to your doorstep in discreet, tamper-evident, temperature-protected packaging.",
+    icon: Clock,
+    title: "Open Six Days a Week",
+    body: "Same-day appointments are available and walk-ins are welcome, including Saturday 9:00 AM to 4:00 PM.",
   },
   {
-    icon: LockKey,
-    title: "Transparent & HSA/FSA",
-    body: "All-inclusive pricing covers medical telehealth review and medications. Qualifies for HSA/FSA reimbursement.",
+    icon: Heartbeat,
+    title: "One Address, Whole Family",
+    body: "Primary care, wellness and anti-aging medicine under one roof at 5970 S Rainbow Boulevard.",
   },
-];
+  ];
+
+/** The three service groups, linked to their sections on /services. */
+const careAreas = [
+  {
+    href: "/services#primary-care",
+    eyebrow: "Primary care",
+    title: "Care for the whole family",
+    body: "Wellness exams, pediatrics, sports physicals, gynecological exams, allergy testing and immunotherapy.",
+    icon: Heartbeat,
+  },
+  {
+    href: "/services#on-site-diagnostics",
+    eyebrow: "Diagnostics",
+    title: "Imaging under one roof",
+    body: "In-house x-ray, a full spectrum of ultrasound, cardiac echo, vascular testing, bone density and DEXA.",
+    icon: Flask,
+  },
+  {
+    href: "/services#wellness-longevity",
+    eyebrow: "Wellness & longevity",
+    title: "Healthspan, not just lifespan",
+    body: "Bio-identical hormone therapy, medically supervised weight loss, IV nutritional therapy and chelation.",
+    icon: Sparkle,
+  },
+  ];
 
 const howItWorksSteps = [
   {
@@ -68,37 +89,65 @@ const howItWorksSteps = [
     step: "03",
     title: "Discreet Delivery to Your Door",
     desc: "Partell Pharmacy prepares your medications with personalized dosing instructions and ships via tracked express delivery.",
-    badge: "3–5 Days",
+    badge: "3\u20135 Days",
   },
+  ];
+
+/**
+ * The team grid. The founder leads it but is tagged so he does not read as
+ * someone you can book: his bio on /team is past tense throughout.
+ */
+const teamCards = [
+  {
+    key: "founder",
+    photo: founder.photo,
+    name: founder.name,
+    credential: founder.credential,
+    role: founder.role,
+    isFounder: true,
+  },
+  ...providers.map((p) => ({
+    key: p.slug,
+    photo: p.photo,
+    name: p.name,
+    credential: p.credential,
+    role: p.role,
+    isFounder: false,
+  })),
 ];
 
+/** Clinic questions lead; the kit and delivery questions follow. */
 const faqItems = [
   {
-    q: "Do I need a prior prescription from another doctor?",
+    q: "Can I see a provider in person in Las Vegas?",
+    a: "Yes. Phillips Clinic is a full-service medical practice with on-site radiology, ultrasound, DEXA scans and family care at 5970 S Rainbow Blvd. We see patients six days a week, including Saturdays, and walk-ins are welcome.",
+  },
+  {
+    q: "Do you take new patients, and do I need a referral?",
+    a: "We are accepting new patients of every age and no referral is needed. Call the front desk or book online, and if you are unsure which kind of visit you need, describe what is going on and they will tell you.",
+  },
+  {
+    q: "Is imaging really done in the building?",
+    a: "Yes. We are one of the few clinics in the Las Vegas valley with an in-house x-ray machine, with a technician on site and providers available to read and interpret the images. Ultrasound, echocardiography, vascular testing, bone density and DEXA are also done here.",
+  },
+  {
+    q: "Do I need a prior prescription for a medication kit?",
     a: "No. Your order includes a secure medical intake and telehealth evaluation by a licensed Phillips Clinic provider. If clinically appropriate, our providers write and authorize the prescription directly for fulfillment through Partell Pharmacy.",
   },
   {
     q: "How are the medications compounded and packaged?",
-    a: "All medications are sourced from FDA-registered facilities and dispensed by Partell Pharmacy, an accredited 503A compounding pharmacy adhering to the highest standards of safety, sterility, and quality control.",
+    a: "All medications are sourced from FDA-registered facilities and dispensed by Partell Pharmacy, an accredited 503A compounding facility adhering to the highest standards of safety, sterility, and quality control.",
   },
   {
     q: "Can I use my HSA or FSA card?",
     a: "Yes. Prescription emergency medication kits and physician consultations are qualified medical expenses under most Health Savings Accounts (HSA) and Flexible Spending Accounts (FSA). An itemized medical receipt is provided.",
   },
-  {
-    q: "How fast will my order arrive?",
-    a: "Once your telehealth questionnaire is reviewed and approved (typically within 24 hours), your kit is prepared and dispatched with tracking. You will receive your kit in 3 to 5 business days.",
-  },
-  {
-    q: "Can I also see a provider in person in Las Vegas?",
-    a: "Yes! Phillips Clinic operates a full-service medical clinic with on-site radiology, ultrasound, DEXA scans, and family practice at 5970 S Rainbow Blvd in Las Vegas. We welcome in-person visits 6 days a week.",
-  },
-];
+  ];
 
 export default function HomePage() {
   return (
     <>
-      {/* 1. HIGH-CONVERTING PHARMACY HERO */}
+      {/* 1. CLINIC HERO */}
       <section className="relative overflow-hidden border-b border-[var(--hairline)] bg-gradient-to-b from-[var(--color-brand-50)]/70 via-[var(--surface)] to-[var(--surface)]">
         {/* Subtle background glow element */}
         <div className="pointer-events-none absolute -top-40 right-0 h-[500px] w-[500px] rounded-full bg-sky-200/30 blur-3xl" />
@@ -109,43 +158,49 @@ export default function HomePage() {
             {/* Trust Pill Eyebrow */}
             <div className="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50/90 px-3.5 py-1.5 text-xs font-semibold text-sky-900 shadow-sm">
               <span className="flex h-2 w-2 rounded-full bg-sky-500 animate-pulse" />
-              <span>US Licensed 503A Compounding Partner • Telehealth Included</span>
+              <span>Serving the Las Vegas valley since 2005 &bull; Open Saturdays</span>
             </div>
 
             <h1 className="mt-5 font-display text-[2.75rem] font-bold leading-[1.06] tracking-tight text-[var(--text-strong)] md:text-5xl lg:text-[4rem]">
-              Prescription emergency kits &amp; custom health,{" "}
-              <span className="text-[var(--accent)]">delivered to your door.</span>
+              Family practice, wellness and{" "}
+              <span className="text-[var(--accent)]">anti-aging medicine.</span>
             </h1>
 
             <p className="mt-5 text-base sm:text-lg leading-relaxed text-[var(--text-body)] max-w-[56ch]">
-              Be prepared before illness strikes. Physician-prescribed antibiotic kits,
-              respiratory emergency kits, and practitioner-grade supplements dispensed directly to you in partnership with Partell Pharmacy.
+              Personalized care for children, adults and seniors in one Las Vegas
+              building &mdash; with x-ray, ultrasound and DEXA on site, so most
+              visits do not send you anywhere else.
             </p>
 
             {/* Quick Guarantees Pill Row */}
             <div className="mt-6 flex flex-wrap items-center gap-y-2 gap-x-5 text-xs font-semibold text-[var(--text-strong)]">
               <span className="flex items-center gap-1.5">
                 <CheckCircle size={16} weight="fill" className="text-emerald-600" />
-                Free 3–5 Day Delivery
+                Same-Day Appointments
               </span>
               <span className="flex items-center gap-1.5">
                 <CheckCircle size={16} weight="fill" className="text-emerald-600" />
-                Board-Certified Review
+                Walk-Ins Welcome
               </span>
               <span className="flex items-center gap-1.5">
                 <CheckCircle size={16} weight="fill" className="text-emerald-600" />
-                HSA/FSA Eligible
+                Board-Certified Providers
               </span>
             </div>
 
             {/* CTAs */}
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href="#medication-kits" className="btn btn-primary shadow-md hover:shadow-lg">
-                <ShoppingBag size={18} weight="bold" />
-                Explore Prescription Kits
+              <a
+                href={clinic.bookingHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-primary shadow-md hover:shadow-lg"
+              >
+                <CalendarCheck size={18} weight="bold" />
+                Book an Appointment
               </a>
-              <Link href="/supplements" className="btn btn-ghost">
-                Shop Supplements
+              <Link href="/services" className="btn btn-ghost">
+                See Our Services
                 <ArrowRight size={16} weight="bold" />
               </Link>
             </div>
@@ -163,13 +218,14 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Hero Visual Card / Product Showcase */}
+          {/* Hero visual. /family.jpg is the clinic's own photo at 733x339, so it
+              is shown at its native aspect and never upscaled past source width. */}
           <div className="relative">
             <div className="relative overflow-hidden rounded-[20px] border border-[var(--hairline-strong)] bg-white p-3 shadow-xl">
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[14px]">
+              <div className="relative aspect-[733/339] w-full overflow-hidden rounded-[14px]">
                 <Image
-                  src="/pharmacy-delivery.jpg"
-                  alt="Prescription emergency medication kit unboxing"
+                  src="/family.jpg"
+                  alt="A family together outdoors"
                   fill
                   priority
                   sizes="(max-width: 1024px) 100vw, 46vw"
@@ -177,39 +233,42 @@ export default function HomePage() {
                 />
                 <div className="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-emerald-800 backdrop-blur-md shadow-sm">
                   <span className="h-2 w-2 rounded-full bg-emerald-500" />
-                  In Stock • Dispatches in 24h
-                </div>
-                <div className="absolute bottom-3 right-3 rounded-lg bg-black/75 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-md">
-                  Partell Pharmacy 503A Partner
+                  Accepting New Patients
                 </div>
               </div>
 
-              {/* Mini Product Cards Strip */}
+              {/* Practical details a first-time patient needs before anything else */}
               <div className="mt-3 grid grid-cols-2 gap-2">
                 <a
-                  href="#antibiotic-emergency-kit"
+                  href={clinic.mapsHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group rounded-xl border border-[var(--hairline)] bg-[var(--color-brand-50)] p-3 transition-colors hover:border-[var(--accent)] hover:bg-white"
                 >
                   <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-[var(--accent)]">
-                    Most Popular
+                    Find Us
                   </span>
                   <p className="font-display text-sm font-semibold text-[var(--text-strong)]">
-                    Antibiotic Kit
+                    S Rainbow Blvd, Suite 100
                   </p>
-                  <p className="text-xs font-bold text-[var(--accent-bright)] mt-0.5">$249</p>
+                  <p className="text-xs text-[var(--text-muted)] mt-0.5">
+                    {clinic.address.city}, {clinic.address.state}
+                  </p>
                 </a>
 
                 <a
-                  href="#covid-emergency-kit"
+                  href={clinic.phoneHref}
                   className="group rounded-xl border border-[var(--hairline)] bg-[var(--color-brand-50)] p-3 transition-colors hover:border-[var(--accent)] hover:bg-white"
                 >
                   <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-sky-700">
-                    With Nebulizer
+                    Front Desk
                   </span>
                   <p className="font-display text-sm font-semibold text-[var(--text-strong)]">
-                    COVID Emergency Kit
+                    {clinic.phone}
                   </p>
-                  <p className="text-xs font-bold text-[var(--accent-bright)] mt-0.5">$299</p>
+                  <p className="text-xs text-[var(--text-muted)] mt-0.5">
+                    Mon&ndash;Sat
+                  </p>
                 </a>
               </div>
             </div>
@@ -217,10 +276,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2. TRUST & COMPLIANCE PILLARS BAR */}
+      {/* 2. CLINIC PILLARS BAR */}
       <section className="border-b border-[var(--hairline)] bg-white py-10">
         <div className="shell grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {pharmacyPillars.map(({ icon: Icon, title, body }) => (
+          {clinicPillars.map(({ icon: Icon, title, body }) => (
             <div key={title} className="flex gap-4 items-start">
               <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-amber-50 text-[var(--accent)] border border-amber-200/60">
                 <Icon size={24} weight="duotone" />
@@ -238,62 +297,206 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3. HOW OUR DIGITAL PHARMACY WORKS */}
-      <section className="border-b border-[var(--hairline)] bg-[var(--surface-2)] py-20 md:py-24">
+      {/* 3. CARE AT PHILLIPS CLINIC */}
+      <section className="border-b border-[var(--hairline)] bg-[var(--surface-2)] py-20 md:py-28">
         <div className="shell">
           <Reveal>
-            <div className="text-center max-w-[64ch] mx-auto">
-              <span className="font-display text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
-                Seamless Telehealth &amp; Delivery
-              </span>
-              <h2 className="mt-3 font-display text-3xl font-semibold leading-tight text-[var(--text-strong)] md:text-4xl">
-                Get your prescription in 3 simple steps
-              </h2>
-              <p className="mt-3 text-sm text-[var(--text-muted)]">
-                No insurance pre-authorizations, no crowded pharmacy lines, and no waiting weeks for a specialist referral.
-              </p>
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+              <div>
+                <span className="font-display text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
+                  What We Do
+                </span>
+                <h2 className="mt-2 max-w-[24ch] font-display text-3xl font-semibold leading-tight text-[var(--text-strong)] md:text-4xl">
+                  Care at Phillips Clinic
+                </h2>
+                <p className="mt-3 max-w-[56ch] text-sm text-[var(--text-body)]">
+                  Three sides of one practice. Most patients see us for all of them
+                  over the years, and never change buildings to do it.
+                </p>
+              </div>
+              <Link href="/services" className="btn btn-ghost shrink-0">
+                All Services
+                <ArrowRight size={16} weight="bold" />
+              </Link>
             </div>
           </Reveal>
 
-          <div className="mt-14 grid gap-8 md:grid-cols-3">
-            {howItWorksSteps.map(({ step, title, desc, badge }, i) => (
-              <Reveal key={step} delay={i * 0.08}>
-                <div className="relative flex h-full flex-col rounded-2xl border border-[var(--hairline)] bg-white p-8 shadow-sm">
-                  <div className="flex items-center justify-between">
-                    <span className="font-display text-3xl font-bold text-slate-200">
-                      {step}
-                    </span>
-                    <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-semibold text-emerald-700 border border-emerald-200/60">
-                      {badge}
-                    </span>
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {careAreas.map(({ href, eyebrow, title, body, icon: Icon }, i) => (
+              <Reveal key={href} delay={i * 0.08}>
+                <Link
+                  href={href}
+                  className="group flex h-full flex-col rounded-2xl border border-[var(--hairline)] bg-white p-8 shadow-sm transition-all duration-300 hover:border-[var(--accent)] hover:shadow-lg"
+                >
+                  <div className="grid h-11 w-11 place-items-center rounded-xl bg-amber-50 text-[var(--accent)] border border-amber-200/60">
+                    <Icon size={24} weight="duotone" />
                   </div>
-                  <h3 className="mt-6 font-display text-lg font-semibold text-[var(--text-strong)]">
+                  <span className="mt-6 font-display text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
+                    {eyebrow}
+                  </span>
+                  <h3 className="mt-1 font-display text-lg font-semibold text-[var(--text-strong)]">
                     {title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">
-                    {desc}
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-[var(--text-muted)]">
+                    {body}
                   </p>
-                </div>
+                  <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--accent)]">
+                    Read more
+                    <ArrowRight size={15} weight="bold" className="transition-transform group-hover:translate-x-1" />
+                  </span>
+                </Link>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 4. FEATURED MEDICATION KITS (E-COMMERCE SHOWCASE) */}
+      {/* 4. MEDICAL TEAM */}
+      <section className="border-b border-[var(--hairline)] bg-[var(--surface-2)] py-20 md:py-28">
+        <div className="shell">
+          <Reveal>
+            <div className="max-w-[24ch]">
+              <span className="font-display text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
+                Licensed Clinical Staff
+              </span>
+              <h2 className="mt-2 font-display text-3xl font-semibold leading-tight text-[var(--text-strong)] md:text-4xl">
+                Real doctors you see in person, year after year.
+              </h2>
+              <p className="mt-4 text-sm text-[var(--text-muted)]">
+                Our board-certified physicians and family nurse practitioners take extra time in the room, and they are the same providers who read your imaging.
+              </p>
+            </div>
+          </Reveal>
+
+          <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+            {teamCards.map((p, i) => (
+              <Reveal key={p.key} delay={i * 0.06}>
+                <li className="relative h-full rounded-2xl border border-[var(--hairline)] bg-white p-5 shadow-sm">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-slate-100">
+                    {p.photo ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={p.photo}
+                        alt={`${p.name}, ${p.credential}`}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="grid h-full place-items-center font-display text-4xl font-semibold text-slate-400">
+                        {p.name
+                          .split(" ")
+                          .map((w) => w[0])
+                          .join("")}
+                      </div>
+                    )}
+                    {p.isFounder && (
+                      <span className="absolute left-2 top-2 rounded-full bg-[var(--color-brand-950)]/85 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur-sm">
+                        Founder
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="mt-4 font-display text-base font-bold text-[var(--text-strong)]">
+                    {p.name}, {p.credential}
+                  </h3>
+                  <p className="text-xs text-[var(--text-muted)]">{p.role}</p>
+                </li>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* 5. SUPPLEMENTS & BIO-IDENTICAL COMPOUNDING */}
+      <section className="border-b border-[var(--hairline)] bg-[var(--surface-2)] py-20 md:py-28">
+        <div className="shell">
+          <div className="grid gap-12 lg:grid-cols-2 items-center">
+            <Reveal>
+              <div className="relative overflow-hidden rounded-2xl border border-[var(--hairline-strong)] bg-white p-3 shadow-lg">
+                <Image
+                  src="/protocol-packaging-alt.jpg"
+                  alt="A Foundations health protocol as it ships, with daily sachets"
+                  width={1824}
+                  height={1026}
+                  sizes="(max-width: 1024px) 100vw, 45vw"
+                  className="rounded-xl object-cover"
+                />
+                <div className="absolute bottom-6 left-6 right-6 rounded-xl bg-white/95 p-4 backdrop-blur-md border border-slate-200/80 shadow-md">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-display text-sm font-semibold text-[var(--text-strong)]">
+                        Phillips Clinic Supplement Store
+                      </p>
+                      <p className="text-xs text-[var(--text-muted)]">
+                        Ten Foundations protocols, shipped as dated sachets
+                      </p>
+                    </div>
+                    <span className="rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1">
+                      Practitioner-Grade
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.08}>
+              <div>
+                <span className="font-display text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
+                  Physician-Grade Formulations
+                </span>
+                <h2 className="mt-2 font-display text-3xl font-bold leading-tight text-[var(--text-strong)] md:text-4xl">
+                  Supplements chosen for your biology, not mass-market shelves.
+                </h2>
+                <p className="mt-4 text-base text-[var(--text-body)] leading-relaxed">
+                  Most off-the-shelf vitamins contain cheap fillers, substandard absorption rates, and inaccurate dosages. Our own store connects you directly to physician-grade nutraceuticals formulated to match your actual blood panels.
+                </p>
+
+                <div className="mt-6 space-y-3">
+                  {[
+                    "Zero artificial fillers, heavy metals, or untested additives",
+                    "Custom compounded prescriptions tailored with Partell Pharmacy",
+                    "Bio-Identical Hormone Replacement Therapy (BHRT) capsules & creams",
+                    "Direct home delivery with automatic refill reminders",
+                  ].map((benefit) => (
+                    <div key={benefit} className="flex items-center gap-2.5 text-sm text-[var(--text-strong)]">
+                      <CheckCircle size={18} weight="fill" className="text-[var(--accent)] shrink-0" />
+                      <span>{benefit}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-8 flex flex-wrap gap-4">
+                  <a
+                    href={clinic.supplementsHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-primary"
+                  >
+                    Open the Supplement Store
+                    <ArrowUpRight size={17} weight="bold" />
+                  </a>
+                  <Link href="/anti-aging" className="btn btn-ghost">
+                    Hormone Compounding
+                  </Link>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. MEDICATION KITS (secondary to the clinic offering) */}
       <section id="medication-kits" className="border-b border-[var(--hairline)] bg-white py-20 md:py-28 scroll-mt-20">
         <div className="shell">
           <Reveal>
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
               <div>
                 <span className="font-display text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
-                  Preparedness &amp; Pharmacy
+                  Also Available
                 </span>
                 <h2 className="mt-2 font-display text-3xl font-semibold leading-tight text-[var(--text-strong)] md:text-4xl">
                   Prescription Medication Kits
                 </h2>
                 <p className="mt-3 max-w-[56ch] text-sm text-[var(--text-body)]">
-                  Dispensed with a telehealth evaluation through Partell Pharmacy. Kept safely in your medicine cabinet for immediate access.
+                  Alongside the clinic, we dispense prescription kits with a telehealth evaluation through Partell Pharmacy, so you have them on the shelf before you need them.
                 </p>
               </div>
               <Link href="/kits" className="btn btn-ghost shrink-0">
@@ -375,212 +578,49 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. PRACTITIONER SUPPLEMENTS & BIO-IDENTICAL COMPOUNDING */}
-      <section className="border-b border-[var(--hairline)] bg-[var(--surface-2)] py-20 md:py-28">
-        <div className="shell">
-          <div className="grid gap-12 lg:grid-cols-2 items-center">
-            <Reveal>
-              <div className="relative overflow-hidden rounded-2xl border border-[var(--hairline-strong)] bg-white p-3 shadow-lg">
-                <Image
-                  src="/pharmacy-supplements.jpg"
-                  alt="Practitioner-grade supplements and clinical formulations"
-                  width={1200}
-                  height={900}
-                  sizes="(max-width: 1024px) 100vw, 45vw"
-                  className="rounded-xl object-cover"
-                />
-                <div className="absolute bottom-6 left-6 right-6 rounded-xl bg-white/95 p-4 backdrop-blur-md border border-slate-200/80 shadow-md">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-display text-sm font-semibold text-[var(--text-strong)]">
-                        Wholescripts Direct Dispensary
-                      </p>
-                      <p className="text-xs text-[var(--text-muted)]">
-                        Proprietary formulations formulated by our medical team
-                      </p>
-                    </div>
-                    <span className="rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1">
-                      Practitioner-Grade
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-
-            <Reveal delay={0.08}>
-              <div>
-                <span className="font-display text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
-                  Physician-Grade Formulations
-                </span>
-                <h2 className="mt-2 font-display text-3xl font-bold leading-tight text-[var(--text-strong)] md:text-4xl">
-                  Supplements chosen for your biology, not mass-market shelves.
-                </h2>
-                <p className="mt-4 text-base text-[var(--text-body)] leading-relaxed">
-                  Most off-the-shelf vitamins contain cheap fillers, substandard absorption rates, and inaccurate dosages. Our dispensary connects you directly to physician-grade nutraceuticals formulated to match your actual blood panels.
-                </p>
-
-                <div className="mt-6 space-y-3">
-                  {[
-                    "Zero artificial fillers, heavy metals, or untested additives",
-                    "Custom compounded prescriptions tailored with Partell Pharmacy",
-                    "Bio-Identical Hormone Replacement Therapy (BHRT) capsules & creams",
-                    "Direct home delivery with automatic refill reminders",
-                  ].map((benefit) => (
-                    <div key={benefit} className="flex items-center gap-2.5 text-sm text-[var(--text-strong)]">
-                      <CheckCircle size={18} weight="fill" className="text-[var(--accent)] shrink-0" />
-                      <span>{benefit}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-8 flex flex-wrap gap-4">
-                  <a
-                    href={clinic.supplementsHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-primary"
-                  >
-                    Open Supplement Dispensary
-                    <ArrowUpRight size={17} weight="bold" />
-                  </a>
-                  <Link href="/anti-aging" className="btn btn-ghost">
-                    Hormone Compounding
-                  </Link>
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. COMPARISON: WHY DIRECT CLINIC PHARMACY BEATS RETAIL */}
-      <section className="border-b border-[var(--hairline)] bg-white py-20 md:py-28">
+      {/* 7. HOW ORDERING A KIT WORKS */}
+      <section className="border-b border-[var(--hairline)] bg-[var(--surface-2)] py-20 md:py-24">
         <div className="shell">
           <Reveal>
-            <div className="text-center max-w-[62ch] mx-auto">
+            <div className="text-center max-w-[64ch] mx-auto">
               <span className="font-display text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
-                The Compounding Difference
+                Ordering a Kit
               </span>
               <h2 className="mt-3 font-display text-3xl font-semibold leading-tight text-[var(--text-strong)] md:text-4xl">
-                Why patients choose Phillips Clinic &amp; Partell Pharmacy
+                How a kit order works, in three steps
               </h2>
               <p className="mt-3 text-sm text-[var(--text-muted)]">
-                Experience healthcare that puts convenience, clinical quality, and emergency preparedness first.
+                This applies to the medication kits only. For clinic visits, book online or call the front desk.
               </p>
             </div>
           </Reveal>
 
-          <div className="mt-14 overflow-hidden rounded-2xl border border-[var(--hairline-strong)] bg-white shadow-sm">
-            <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-[var(--hairline)]">
-              {/* Conventional Retail */}
-              <div className="p-8 sm:p-10 bg-slate-50/50">
-                <p className="font-display text-lg font-bold text-slate-400">
-                  Conventional Retail Pharmacy
-                </p>
-                <ul className="mt-6 space-y-4 text-sm text-slate-500">
-                  <li className="flex items-start gap-3">
-                    <span className="text-rose-500 font-bold mt-0.5">✕</span>
-                    <span>Waiting in crowded retail queues when already feeling sick</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-rose-500 font-bold mt-0.5">✕</span>
-                    <span>One-size-fits-all commercial dosages without compounding flexibility</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-rose-500 font-bold mt-0.5">✕</span>
-                    <span>No advance emergency preparations — leaves you stranded during shortages</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-rose-500 font-bold mt-0.5">✕</span>
-                    <span>Impersonal clerks with no access to your medical history</span>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Phillips Clinic & Partell Pharmacy */}
-              <div className="p-8 sm:p-10 bg-gradient-to-br from-amber-50/40 via-white to-white border-t-2 md:border-t-0 md:border-l-2 border-[var(--accent)]">
-                <div className="flex items-center justify-between">
-                  <p className="font-display text-lg font-bold text-[var(--text-strong)]">
-                    Phillips Clinic + Partell Pharmacy
+          <div className="mt-14 grid gap-8 md:grid-cols-3">
+            {howItWorksSteps.map(({ step, title, desc, badge }, i) => (
+              <Reveal key={step} delay={i * 0.08}>
+                <div className="relative flex h-full flex-col rounded-2xl border border-[var(--hairline)] bg-white p-8 shadow-sm">
+                  <div className="flex items-center justify-between">
+                    <span className="font-display text-3xl font-bold text-slate-200">
+                      {step}
+                    </span>
+                    <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-semibold text-emerald-700 border border-emerald-200/60">
+                      {badge}
+                    </span>
+                  </div>
+                  <h3 className="mt-6 font-display text-lg font-semibold text-[var(--text-strong)]">
+                    {title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">
+                    {desc}
                   </p>
-                  <span className="rounded-full bg-amber-100 text-amber-900 text-xs font-bold px-2.5 py-0.5">
-                    Recommended
-                  </span>
                 </div>
-                <ul className="mt-6 space-y-4 text-sm text-[var(--text-strong)]">
-                  <li className="flex items-start gap-3">
-                    <CheckCircle size={18} weight="fill" className="text-emerald-600 mt-0.5 shrink-0" />
-                    <span><strong>Pre-emptive kits on your shelf</strong> before travel or illness strikes</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle size={18} weight="fill" className="text-emerald-600 mt-0.5 shrink-0" />
-                    <span><strong>503A Licensed custom compounding</strong> tailored to your body and tolerance</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle size={18} weight="fill" className="text-emerald-600 mt-0.5 shrink-0" />
-                    <span><strong>Discreet home delivery</strong> with full tracking within 3 to 5 business days</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle size={18} weight="fill" className="text-emerald-600 mt-0.5 shrink-0" />
-                    <span><strong>20+ years of continuous medical oversight</strong> by Nevada physicians</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* 7. MEDICAL TEAM & CLINICAL BACKING */}
-      <section className="border-b border-[var(--hairline)] bg-[var(--surface-2)] py-20 md:py-28">
-        <div className="shell">
-          <Reveal>
-            <div className="max-w-[24ch]">
-              <span className="font-display text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
-                Licensed Clinical Staff
-              </span>
-              <h2 className="mt-2 font-display text-3xl font-semibold leading-tight text-[var(--text-strong)] md:text-4xl">
-                Real doctors. Real oversight. Not an anonymous app.
-              </h2>
-              <p className="mt-4 text-sm text-[var(--text-muted)]">
-                Our board-certified providers personally review every health questionnaire and ensure your prescription fits your medical history.
-              </p>
-            </div>
-          </Reveal>
-
-          <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {providers.map((p, i) => (
-              <Reveal key={p.slug} delay={i * 0.06}>
-                <li className="rounded-2xl border border-[var(--hairline)] bg-white p-5 shadow-sm">
-                  <div className="aspect-[4/5] overflow-hidden rounded-xl bg-slate-100">
-                    {p.photo ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={p.photo}
-                        alt={`${p.name}, ${p.credential}`}
-                        className="h-full w-full object-cover"
-                      />
-                    ) : (
-                      <div className="grid h-full place-items-center font-display text-4xl font-semibold text-slate-400">
-                        {p.name
-                          .split(" ")
-                          .map((w) => w[0])
-                          .join("")}
-                      </div>
-                    )}
-                  </div>
-                  <h3 className="mt-4 font-display text-base font-bold text-[var(--text-strong)]">
-                    {p.name}, {p.credential}
-                  </h3>
-                  <p className="text-xs text-[var(--text-muted)]">{p.role}</p>
-                </li>
-              </Reveal>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* 8. VERIFIED PATIENT REVIEWS */}
+      {/* 8. PATIENT REVIEWS */}
       <section className="border-b border-[var(--hairline)] bg-white py-20 md:py-28">
         <div className="shell">
           <Reveal>
@@ -618,7 +658,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 9. PHARMACY & PRESCRIPTION FAQS */}
+      {/* 9. FREQUENTLY ASKED QUESTIONS */}
       <section className="border-b border-[var(--hairline)] bg-[var(--surface-2)] py-20 md:py-28">
         <div className="shell max-w-4xl">
           <Reveal>
@@ -630,7 +670,7 @@ export default function HomePage() {
                 Frequently Asked Questions
               </h2>
               <p className="mt-3 text-sm text-[var(--text-muted)]">
-                Everything you need to know about our prescription emergency kits, pharmacy partnership, and delivery.
+                Visiting the clinic, what we do on site, and how the medication kits work.
               </p>
             </div>
           </Reveal>
@@ -655,35 +695,40 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 10. URGENT PREPAREDNESS BOTTOM CTA BAND */}
+      {/* 10. BOOK A VISIT CTA BAND */}
       <section className="relative overflow-hidden bg-[var(--color-brand-950)] text-white py-20 md:py-24">
         <div className="pointer-events-none absolute -bottom-32 -left-20 h-96 w-96 rounded-full bg-amber-500/10 blur-3xl" />
         <div className="shell relative grid gap-10 lg:grid-cols-[1.2fr_0.8fr] items-center">
           <div>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-400/20 px-3 py-1 text-xs font-semibold text-amber-300">
-              <Sparkle size={13} weight="fill" /> Be Prepared Before Symptoms Start
+              <Sparkle size={13} weight="fill" /> Accepting New Patients of Every Age
             </span>
             <h2 className="mt-4 font-display text-3xl font-bold leading-tight md:text-5xl text-white">
-              Order your prescription emergency kit today.
+              Book a visit at the clinic.
             </h2>
             <p className="mt-4 text-base text-slate-300 max-w-[50ch] leading-relaxed">
-              Fast online telehealth intake, approved by board-certified providers, and dispensed directly to your doorstep in 3 to 5 days.
+              Appointments are available and preferred, but you will not be turned away for walking in. We are open six days a week, including Saturday.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/kits" className="btn btn-primary shadow-lg">
-                <ShoppingBag size={18} weight="bold" />
-                Order Medication Kits Now
-              </Link>
+              <a
+                href={clinic.bookingHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-primary shadow-lg"
+              >
+                <CalendarCheck size={18} weight="bold" />
+                Book an Appointment
+              </a>
               <a href={clinic.phoneHref} className="btn border border-white/20 text-white hover:bg-white/10">
                 <Phone size={16} weight="fill" />
-                Call (702) 363-4000
+                Call {clinic.phone}
               </a>
             </div>
           </div>
 
           <div className="rounded-2xl border border-white/15 bg-white/5 p-8 backdrop-blur-md">
             <h3 className="font-display text-lg font-bold text-white">
-              Las Vegas Clinic &amp; Pharmacy Care
+              Las Vegas Family Practice
             </h3>
             <p className="mt-2 text-xs text-slate-300 leading-relaxed">
               5970 South Rainbow Boulevard, Suite 100, Las Vegas, NV 89118
@@ -694,16 +739,14 @@ export default function HomePage() {
             <div className="mt-6 pt-6 border-t border-white/10 flex items-center justify-between text-xs">
               <span className="text-emerald-400 font-semibold flex items-center gap-1.5">
                 <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
-                Accepting New Telehealth Patients
+                  Same-Day Appointments Available
               </span>
-              <a
-                href={clinic.bookingHref}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/kits"
                 className="text-[var(--color-accent-300)] font-semibold hover:underline"
               >
-                Book In-Person →
-              </a>
+                Medication Kits →
+              </Link>
             </div>
           </div>
         </div>

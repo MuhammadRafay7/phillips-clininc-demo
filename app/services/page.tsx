@@ -1,8 +1,6 @@
 import { PageHero } from "@/components/page-hero";
 import { Reveal } from "@/components/reveal";
 import { CtaBand } from "@/components/cta-band";
-import { Photo } from "@/components/photo";
-import { photos } from "@/lib/images";
 import { serviceGroups } from "@/lib/clinic";
 
 export const metadata = {
@@ -41,11 +39,7 @@ export default function ServicesPage() {
 
             {gi === 1 && (
               <Reveal>
-                <Photo
-                  slot={photos.imaging}
-                  sizes="(max-width: 1024px) 100vw, 78rem"
-                  className="mt-10 aspect-[21/9] w-full rounded-[var(--radius-surface)] object-cover"
-                />
+                <ImagingPathway count={group.services.length} />
               </Reveal>
             )}
 
@@ -72,5 +66,64 @@ export default function ServicesPage() {
         body="Call the front desk and describe what is going on. They will tell you whether it is a wellness visit, an imaging appointment, or something we should see you for today."
       />
     </>
+  );
+}
+
+/** The three steps of an on-site scan, in order. */
+const imagingSteps = [
+  {
+    label: "Scanned here",
+    body: "The x-ray, ultrasound or DEXA is done in this building, with a technician on site.",
+  },
+  {
+    label: "Read here",
+    body: "Your provider reads and interprets the images. Nothing is couriered to a third party first.",
+  },
+  {
+    label: "Discussed here",
+    body: "You talk through what the images show in the same visit, rather than booking a second one.",
+  },
+];
+
+/**
+ * Sits where an imaging photo would go. The clinic has no photo of its own
+ * equipment yet (see photos.imaging in lib/images), and rather than hold the
+ * space empty this states the thing the photo was meant to say: the workup
+ * starts and finishes at one address.
+ */
+function ImagingPathway({ count }: { count: number }) {
+  return (
+    <div className="mt-10 overflow-hidden rounded-[var(--radius-surface)] bg-[var(--color-brand-950)] px-8 py-12 text-white md:px-14 md:py-16">
+      <p className="font-display text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent-300)]">
+        {count} imaging services, one address
+      </p>
+      <h3 className="mt-4 max-w-[20ch] font-display text-2xl font-semibold leading-[1.15] text-white md:text-[2rem]">
+        Scanned, read and discussed in the same visit.
+      </h3>
+
+      <ol className="mt-12 grid gap-x-12 gap-y-10 md:grid-cols-3">
+        {imagingSteps.map((step, i) => (
+          <li
+            key={step.label}
+            className="border-t border-white/20 pt-6"
+          >
+            <span className="font-display text-sm font-semibold tabular-nums text-[var(--color-accent-300)]">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <h4 className="mt-3 font-display text-lg font-semibold">
+              {step.label}
+            </h4>
+            <p className="mt-2 text-sm leading-relaxed text-white/70">
+              {step.body}
+            </p>
+          </li>
+        ))}
+      </ol>
+
+      <p className="mt-12 max-w-[62ch] text-sm leading-relaxed text-white/60">
+        Most clinics refer imaging out to a separate facility, which adds cost
+        and another trip. Ours is down the hall.
+      </p>
+    </div>
   );
 }

@@ -26,6 +26,7 @@ const columns = [
     heading: "Practice",
     links: [
       { href: "/team", label: "Our team" },
+      { href: "/blog", label: "Health newsletter" },
       { href: "/contact", label: "Contact & directions" },
     ],
   },
