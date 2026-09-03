@@ -12,7 +12,6 @@ import {
   Phone,
   ShoppingBag,
   Sparkle,
-  Star,
   Stethoscope,
 } from "@phosphor-icons/react/dist/ssr";
 import { Reveal } from "@/components/reveal";
@@ -134,14 +133,6 @@ const faqItems = [
     q: "Do I need a prior prescription for a medication kit?",
     a: "No. Your order includes a secure medical intake and telehealth evaluation by a licensed Phillips Clinic provider. If clinically appropriate, our providers write and authorize the prescription directly for fulfillment through Partell Pharmacy.",
   },
-  {
-    q: "How are the medications compounded and packaged?",
-    a: "All medications are sourced from FDA-registered facilities and dispensed by Partell Pharmacy, an accredited 503A compounding facility adhering to the highest standards of safety, sterility, and quality control.",
-  },
-  {
-    q: "Can I use my HSA or FSA card?",
-    a: "Yes. Prescription emergency medication kits and physician consultations are qualified medical expenses under most Health Savings Accounts (HSA) and Flexible Spending Accounts (FSA). An itemized medical receipt is provided.",
-  },
   ];
 
 export default function HomePage() {
@@ -205,17 +196,21 @@ export default function HomePage() {
               </Link>
             </div>
 
-            {/* Social Proof Star Bar */}
-            <div className="mt-10 flex items-center gap-4 pt-6 border-t border-[var(--hairline)]">
-              <div className="flex text-amber-500">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={17} weight="fill" />
-                ))}
-              </div>
-              <p className="text-xs text-[var(--text-muted)]">
-                <strong className="font-semibold text-[var(--text-strong)]">4.9 / 5.0 rating</strong> from 500+ patients across Nevada &amp; beyond.
-              </p>
-            </div>
+            {/* Was a fabricated "4.9/5.0 from 500+ patients" bar. The clinic
+                publishes no rating, so this quotes a real review instead. */}
+            <figure className="mt-10 border-t border-[var(--hairline)] pt-6">
+              <blockquote className="max-w-[52ch] text-sm leading-relaxed text-[var(--text-body)]">
+                &ldquo;It was the most thorough doctor visit I&rsquo;ve ever had.
+                Everything was addressed during the same visit and I never felt
+                rushed at all.&rdquo;
+              </blockquote>
+              <figcaption className="mt-2 text-xs text-[var(--text-muted)]">
+                Stephanie V., patient &middot;{" "}
+                <Link href="/reviews" className="font-medium text-[var(--accent)] hover:underline">
+                  Read more reviews
+                </Link>
+              </figcaption>
+            </figure>
           </div>
 
           {/* Hero visual. /family.jpg is the clinic's own photo at 733x339, so it
@@ -629,7 +624,7 @@ export default function HomePage() {
                 Patient Testimonials
               </span>
               <h2 className="mt-2 font-display text-3xl font-semibold leading-tight text-[var(--text-strong)] md:text-4xl">
-                Trusted by thousands of Nevada families
+                In our patients&rsquo; words
               </h2>
             </div>
           </Reveal>
@@ -639,17 +634,12 @@ export default function HomePage() {
               <Reveal key={r.name} delay={i * 0.05}>
                 <div className="flex h-full flex-col justify-between rounded-2xl border border-[var(--hairline)] bg-slate-50/60 p-6">
                   <div>
-                    <div className="flex text-amber-500 mb-3">
-                      {[...Array(5)].map((_, idx) => (
-                        <Star key={idx} size={15} weight="fill" />
-                      ))}
-                    </div>
                     <blockquote className="text-sm leading-relaxed text-[var(--text-strong)]">
                       “{r.body}”
                     </blockquote>
                   </div>
                   <p className="mt-5 text-xs font-semibold text-[var(--text-muted)]">
-                    — {r.name}, Verified Patient
+                    — {r.name}, patient
                   </p>
                 </div>
               </Reveal>

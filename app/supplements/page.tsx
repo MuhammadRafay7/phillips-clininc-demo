@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowUpRight, CheckCircle, ShieldCheck, ShoppingBag, Sparkle } from "@phosphor-icons/react/dist/ssr";
+import { ArrowUpRight, CheckCircle } from "@phosphor-icons/react/dist/ssr";
 import { PageHero } from "@/components/page-hero";
 import { Reveal } from "@/components/reveal";
 import { CtaBand } from "@/components/cta-band";
@@ -18,23 +18,6 @@ export default function SupplementsPage() {
         title="Physician-grade supplements, matched to your biology."
         intro="Phillips Clinic offers proprietary, practitioner-formulated nutritional supplements through our own online store. Sourced without cheap fillers, artificial colorings, or unverified ingredients."
       />
-
-      <section className="border-b border-[var(--hairline)] bg-white py-6">
-        <div className="shell flex flex-wrap items-center justify-center gap-6 sm:gap-12 text-xs font-semibold text-[var(--text-strong)]">
-          <span className="flex items-center gap-2 text-emerald-700">
-            <ShieldCheck size={18} weight="fill" />
-            3rd-Party Lab Verified Potency
-          </span>
-          <span className="flex items-center gap-2 text-sky-800">
-            <Sparkle size={16} weight="fill" />
-            Direct-to-Patient Pricing
-          </span>
-          <span className="flex items-center gap-2 text-slate-700">
-            <ShoppingBag size={18} weight="duotone" />
-            Automated Doorstep Refills
-          </span>
-        </div>
-      </section>
 
       <section className="shell py-16 md:py-24">
         <div className="grid gap-12 lg:grid-cols-2 items-center">
@@ -71,10 +54,6 @@ export default function SupplementsPage() {
               <div className="flex items-center gap-2.5">
                 <CheckCircle size={18} weight="fill" className="text-emerald-600 shrink-0" />
                 <span>Zero synthetic binders or excipients</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <CheckCircle size={18} weight="fill" className="text-emerald-600 shrink-0" />
-                <span>Free doorstep shipping on orders over $50</span>
               </div>
             </div>
 

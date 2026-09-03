@@ -25,7 +25,7 @@ const steps = [
   {
     icon: Truck,
     title: "Free Tracked Delivery in 3–5 Days",
-    body: "Compounded and fulfilled by Partell Pharmacy in discreet, temperature-guarded packaging with full tracking.",
+    body: "Compounded and fulfilled by Partell Pharmacy, shipped discreetly with tracking.",
   },
 ];
 
@@ -42,7 +42,7 @@ export default function KitsPage() {
         <div className="shell flex flex-wrap items-center justify-center gap-6 sm:gap-12 text-xs font-semibold text-[var(--text-strong)]">
           <span className="flex items-center gap-2 text-emerald-700">
             <ShieldCheck size={18} weight="fill" />
-            503A Licensed US Compounding Facility
+            Dispensed Through Partell Pharmacy
           </span>
           <span className="flex items-center gap-2 text-sky-800">
             <Sparkle size={16} weight="fill" />
